@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ProductRepositoryIT {
@@ -63,10 +64,14 @@ class ProductRepositoryIT {
                 2, "PROD-02", 1, "EI", "http://images.img/img.02.png", LocalDateTime.now());
 
         Product product = productRepository.findById(ProductId.of("PROD-02")).get();
-        product.changeImages(List.of(
-                new InternalImage("/path01.png"),
-                new InternalImage("/path02.png")
-        ));
+        List<Image> newImages = List.of(
+            new InternalImage("/path01.png"),
+            new InternalImage("/path02.png")
+        );
+        product.changeImages(newImages);
         productRepository.flush();
+
+        product = productRepository.findById(ProductId.of("PROD-02")).get();
+        assertEquals(product.getImages(), newImages);
     }
 }
