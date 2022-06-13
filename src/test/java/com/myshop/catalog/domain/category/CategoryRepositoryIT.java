@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CategoryRepositoryIT {
+    final static int insertedCategorySize = 2;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -33,7 +34,7 @@ class CategoryRepositoryIT {
     @Test
     void findAll() {
         List<Category> categories = categoryRepository.findAll();
-        assertThat(categories).hasSize(2);
+        assertThat(categories).hasSize(insertedCategorySize);
     }
 
     @Test
